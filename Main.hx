@@ -3,16 +3,17 @@ import h2d.Bitmap;
 import h2d.Tile;
 import h2d.Interactive;
 
+import entities.Enemy;
+
 class Main extends App {
 	static function main() {
 		new Main();
 	}
 
 	static final SPEED = 10;
-	static final ENEMY_SPEED = 10;
 
 	var player:Bitmap;
-	var enemies = new Array<Bitmap>();
+	var enemies = new Array<Enemy>();
 	var velocity = 0;
 
 	override function init() {
@@ -22,10 +23,9 @@ class Main extends App {
 		player.tile = player.tile.center();
 
 		for (i in 0...4) {
-			var enemy = new Bitmap(Tile.fromColor(0xff0000, 60, 60), s2d);
-			enemy.tile = enemy.tile.center();
+			var enemy = new Enemy(s2d);
 			enemy.y = s2d.height * .5;
-			enemy.x = 200 + (i * 200);
+			enemy.x = 200 + (i * 250);
 
 			enemies.push(enemy);
 		}
@@ -46,7 +46,7 @@ class Main extends App {
 		player.x += velocity;
 
 		for (enemy in enemies) {
-			enemy.rotation += .01;
+			enemy.update();
 		}
 	}
 }
