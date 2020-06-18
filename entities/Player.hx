@@ -11,7 +11,7 @@ class Player extends Bitmap {
 
 	public function new(scene:Scene) {
 		this.scene = scene;
-		var tile = Tile.fromColor(0x00ff00, 60, 60);
+		var tile = Tile.fromColor(0x00ff00, 30, 30);
         tile = tile.center();
 		super(tile, scene);
 		this.speed = 10;
@@ -24,8 +24,16 @@ class Player extends Bitmap {
 			this.x += this.speed;
 		}
 		
+		if(Key.isDown(Key.UP)){
+			this.y -= this.speed;
+		}
+		
 		if(Key.isDown(Key.LEFT)){
 			this.x -= this.speed;
+		}
+		
+		if(Key.isDown(Key.DOWN)){
+			this.y += this.speed;
 		}
 	}
 }
