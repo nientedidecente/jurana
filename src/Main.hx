@@ -1,5 +1,3 @@
-package jurana;
-
 import hxd.App;
 import h2d.Bitmap;
 import h2d.Tile;

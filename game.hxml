@@ -1,7 +1,9 @@
+# https://haxe.org/manual/compiler-usage-flags.html
 -lib heaps
 -lib hlsdl
+#--class-path
 -cp src
--main jurana.Main
+-main Main
 -D windowSize=1090x768
 -D windowFixed=1
 -D windowTitle=Jurana
