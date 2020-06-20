@@ -1,7 +1,8 @@
-import differ.Collision;
+import h2d.Text.Align;
 import hxd.Key;
 import hxd.App;
 import h2d.Bitmap;
+import jurana.entities.Collidable;
 import h2d.Tile;
 import jurana.entities.Goal;
 import jurana.entities.Enemy;
@@ -14,8 +15,9 @@ class Main extends App {
 
 	var goal:Goal;
 	var player:Player;
-	var enemies = new Array<Enemy>();
+	var enemies = new Array<Collidable>();
 	var velocity = 0;
+	var gameOver = false;
 
 	override function init() {
 		var backgound = new Bitmap(Tile.fromColor(0xCBF3F0, s2d.width, s2d.height), s2d);
@@ -43,6 +45,10 @@ class Main extends App {
 			Sys.exit(0);
 		}
 
+		if (gameOver) {
+			return;
+		}
+
 		player.update();
 		for (enemy in enemies) {
 			enemy.update();
@@ -56,16 +62,40 @@ class Main extends App {
 			return;
 		}
 
-		var collision = Collision.shapeWithShape(player.collider, goal.collider);
-		if (collision != null) {
+		var collision = player.isColliding(goal);
+		if (collision) {
 			trace('${Date.now()}: collision happened');
-			/*
-				player.destroy();
-				goal.destroy();
-
-				player = null;
-				goal = null;
-			 */
+			player.destroy();
+			goal.destroy();
+			gameOver = true;
+			this.printWinner();
+			return;
 		}
+
+		collision = player.isCollidingWithShapes(enemies);
+		if(collision){
+			trace('${Date.now()}: collision happened');
+			player.destroy();
+			gameOver = true;
+			this.printLoser();
+		}
+
+	}
+
+	function printWinner() {
+		printText("YOU WON!");
+	}
+
+	function printLoser() {
+		printText("GAME OVER!");
+	}
+
+	function printText(message:String) {
+		var t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
+		t.scale(10);
+		t.text = message;
+		t.textAlign = Align.Center;
+		t.x = s2d.width * .5;
+		t.y = s2d.height * .5;
 	}
 }
