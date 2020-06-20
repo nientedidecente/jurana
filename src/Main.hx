@@ -20,6 +20,8 @@ class Main extends App {
 	var gameOver = false;
 
 	override function init() {
+		gameOver = false;
+		enemies = new Array<Collidable>();
 		var backgound = new Bitmap(Tile.fromColor(0xCBF3F0, s2d.width, s2d.height), s2d);
 		backgound.x = 0;
 		backgound.y = 0;
@@ -45,6 +47,10 @@ class Main extends App {
 			Sys.exit(0);
 		}
 
+		if (Key.isPressed(Key.R)) {
+			this.init();
+		}
+
 		if (gameOver) {
 			return;
 		}
@@ -65,35 +71,51 @@ class Main extends App {
 		var collision = player.isColliding(goal);
 		if (collision) {
 			trace('${Date.now()}: collision happened');
-			player.destroy();
-			goal.destroy();
+			this.removeEntities();
 			gameOver = true;
 			this.printWinner();
 			return;
 		}
 
 		collision = player.isCollidingWithShapes(enemies);
-		if(collision){
+		if (collision) {
 			trace('${Date.now()}: collision happened');
-			player.destroy();
+			this.removeEntities();
 			gameOver = true;
 			this.printLoser();
 		}
+	}
 
+	function removeEntities() {
+		player.destroy();
+		goal.destroy();
+		for (enemy in enemies) {
+			enemy.destroy();
+		}
 	}
 
 	function printWinner() {
-		printText("YOU WON!");
+		printHeader("YOU WON!");
+		printInfo();
 	}
 
 	function printLoser() {
-		printText("GAME OVER!");
+		printHeader("GAME OVER!");
+		printInfo();
 	}
 
-	function printText(message:String) {
+	function printHeader(message:String) {
 		var t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
 		t.scale(10);
 		t.text = message;
+		t.textAlign = Align.Center;
+		t.x = s2d.width * .5;
+	}
+
+	function printInfo() {
+		var t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
+		t.scale(5);
+		t.text = "R - to restart\n ESC - to quit";
 		t.textAlign = Align.Center;
 		t.x = s2d.width * .5;
 		t.y = s2d.height * .5;
