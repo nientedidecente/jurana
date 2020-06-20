@@ -1,6 +1,8 @@
 -lib heaps
 -lib hlsdl
--main Main
+-cp src
+-main jurana.Main
 -D windowSize=1090x768
 -D windowFixed=1
+-D windowTitle=Jurana
 -hl build/game.hl

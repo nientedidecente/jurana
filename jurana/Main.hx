@@ -1,17 +1,27 @@
+package jurana;
+
 import hxd.App;
-import entities.Enemy;
-import entities.Player;
+import h2d.Bitmap;
+import h2d.Tile;
+import jurana.entities.Goal;
+import jurana.entities.Enemy;
+import jurana.entities.Player;
 
 class Main extends App {
 	static function main() {
 		new Main();
 	}
 
+	var goal:Goal;
 	var player:Player;
 	var enemies = new Array<Enemy>();
 	var velocity = 0;
 
 	override function init() {
+		var backgound = new Bitmap(Tile.fromColor(0xCBF3F0, s2d.width, s2d.height), s2d);
+		backgound.x = 0;
+		backgound.y = 0;
+
 		player = new Player(s2d);
 		player.x = 60;
 		player.y = s2d.height * .5;
@@ -23,6 +33,8 @@ class Main extends App {
 
 			enemies.push(enemy);
 		}
+
+		goal = new Goal(s2d);
 	}
 
 	override function update(dt:Float) {

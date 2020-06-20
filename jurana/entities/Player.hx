@@ -1,4 +1,4 @@
-package entities;
+package jurana.entities;
 
 import hxd.Key;
 import h2d.Tile;
@@ -11,7 +11,7 @@ class Player extends Bitmap {
 
 	public function new(scene:Scene) {
 		this.scene = scene;
-		var tile = Tile.fromColor(0x00ff00, 30, 30);
+		var tile = Tile.fromColor(0x2ec4b6, 30, 30);
         tile = tile.center();
 		super(tile, scene);
 		this.speed = 10;
