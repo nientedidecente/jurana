@@ -1,18 +1,18 @@
 package jurana.entities;
 
-import h2d.Bitmap;
 import h2d.Tile;
 import h2d.Scene;
+import differ.shapes.Polygon;
 
-class Goal extends Bitmap {
-	var scene:Scene;
+class Goal extends Collidable {
+	static final SIZE = 20;
 
 	public function new(scene:Scene) {
-		this.scene = scene;
-		var tile = Tile.fromColor(0x17635e, 10, scene.height);
+		var tile = Tile.fromColor(0x17635e, SIZE, scene.height);
 		tile = tile.center();
-		super(tile, scene);
-		this.x = scene.width - 5;
+		super(scene, tile);
+		this.x = scene.width - (SIZE / 2);
 		this.y = scene.height * .5;
+		collider = Polygon.rectangle(this.x, this.y, SIZE / 2, scene.height);
 	}
 }

@@ -1,3 +1,5 @@
+import differ.Collision;
+import hxd.Key;
 import hxd.App;
 import h2d.Bitmap;
 import h2d.Tile;
@@ -36,9 +38,34 @@ class Main extends App {
 	}
 
 	override function update(dt:Float) {
+		if (Key.isPressed(Key.ESCAPE)) {
+			trace('ESCAPE pressed');
+			Sys.exit(0);
+		}
+
 		player.update();
 		for (enemy in enemies) {
 			enemy.update();
+		}
+
+		checkCollisions();
+	}
+
+	function checkCollisions() {
+		if (player == null) {
+			return;
+		}
+
+		var collision = Collision.shapeWithShape(player.collider, goal.collider);
+		if (collision != null) {
+			trace('${Date.now()}: collision happened');
+			/*
+				player.destroy();
+				goal.destroy();
+
+				player = null;
+				goal = null;
+			 */
 		}
 	}
 }
