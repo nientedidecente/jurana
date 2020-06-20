@@ -7,4 +7,3 @@ class RandomizerTestCase { // extends haxe.unit.TestCase {
 		//assertEquals("A", "A");
 	}
 }
-1
