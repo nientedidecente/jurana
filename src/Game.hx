@@ -1,5 +1,6 @@
 import ui.UiHelper;
 import jurana.scenes.Menu;
+import jurana.scenes.Level;
 import hxd.Key;
 import hxd.App;
 import jurana.entities.Collidable;
@@ -20,6 +21,11 @@ class Game extends App {
 	var gameOver = false;
 
 	override function init() {
+		mainMenu();
+	}
+
+	function mainMenu() {
+		gameStarted = false;
 		var onStart = function() {
 			startGame();
 		};
@@ -27,6 +33,9 @@ class Game extends App {
 	}
 
 	function startGame() {
+		setScene2D(new Level(function() {
+			mainMenu();
+		}));
 		gameStarted = true;
 		gameOver = false;
 		enemies = new Array<Collidable>();
@@ -115,6 +124,6 @@ class Game extends App {
 	}
 
 	function printInfo() {
-		UiHelper.addInfo("R - to restart\n ESC - to quit", s2d);
+		UiHelper.addInfo("[R] - to restart\n[Q] - quit to Menu\n[ESC] - to Exit Game", s2d);
 	}
 }

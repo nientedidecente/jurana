@@ -1,9 +1,9 @@
 package jurana.scenes;
 
-import hxd.Key;
+import h2d.Scene;
 import ui.UiHelper;
 import hxd.Event;
-import h2d.Scene;
+import hxd.Key;
 
 class Menu extends Scene {
 	public function new(onStart:Void->Void) {
@@ -17,4 +17,6 @@ class Menu extends Scene {
 			}
 		});
 	}
+
+	
 }
