@@ -48,7 +48,7 @@ class Collidable extends Bitmap {
 		return false;
 	}
 
-	public function update() {
+	public function update(dt: Float) {
 		this.collider.x = this.x;
 		this.collider.y = this.y;
 	}

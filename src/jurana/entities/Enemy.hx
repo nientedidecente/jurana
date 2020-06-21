@@ -20,8 +20,8 @@ class Enemy extends Collidable {
 		collider = new Circle(this.x, this.y, size * .5);
 	}
 
-	override function update() {
-		super.update();
+	override function update(dt: Float) {
+		super.update(dt);
 		this.rotation += this.rotationSpeed;
 		this.y += this.speed;
 
