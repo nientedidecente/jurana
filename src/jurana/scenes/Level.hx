@@ -9,6 +9,8 @@ import jurana.entities.Enemy;
 import jurana.entities.Player;
 
 class Level extends BaseScene {
+	static final THRESHOLD = 100;
+
 	var goal:Goal;
 	var player:Player;
 	var enemies = new Array<Collidable>();
@@ -44,6 +46,8 @@ class Level extends BaseScene {
 		}
 
 		checkCollisions();
+
+		checkOutOfBounds();
 	}
 
 	function checkCollisions() {
@@ -64,6 +68,15 @@ class Level extends BaseScene {
 		collision = player.isCollidingWithShapes(enemies);
 		if (collision) {
 			trace('${Date.now()}: collision happened');
+			this.removeEntities();
+			gameOver = true;
+			this.printLoser();
+		}
+	}
+
+	function checkOutOfBounds() {
+		if ((player.x > this.width + THRESHOLD || player.x < -THRESHOLD)
+			|| (player.y > this.height + THRESHOLD || player.y < -THRESHOLD)) {
 			this.removeEntities();
 			gameOver = true;
 			this.printLoser();
