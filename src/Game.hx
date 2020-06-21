@@ -60,9 +60,9 @@ class Game extends App {
 			return;
 		}
 
-		player.update();
+		player.update(dt);
 		for (enemy in enemies) {
-			enemy.update();
+			enemy.update(dt);
 		}
 
 		checkCollisions();
