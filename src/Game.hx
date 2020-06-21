@@ -1,43 +1,46 @@
-import h2d.Text.Align;
+import ui.UiHelper;
+import jurana.scenes.Menu;
 import hxd.Key;
 import hxd.App;
-import h2d.Bitmap;
 import jurana.entities.Collidable;
-import h2d.Tile;
 import jurana.entities.Goal;
 import jurana.entities.Enemy;
 import jurana.entities.Player;
 
-class Main extends App {
+class Game extends App {
 	static function main() {
-		new Main();
+		new Game();
 	}
 
 	var goal:Goal;
 	var player:Player;
 	var enemies = new Array<Collidable>();
 	var velocity = 0;
+	var gameStarted = false;
 	var gameOver = false;
 
 	override function init() {
+		var onStart = function() {
+			startGame();
+		};
+		setScene2D(new Menu(onStart));
+	}
+
+	function startGame() {
+		gameStarted = true;
 		gameOver = false;
 		enemies = new Array<Collidable>();
-		var backgound = new Bitmap(Tile.fromColor(0xCBF3F0, s2d.width, s2d.height), s2d);
-		backgound.x = 0;
-		backgound.y = 0;
-
+		UiHelper.addBackground(s2d);
 		player = new Player(s2d);
 		player.x = 60;
 		player.y = s2d.height * .5;
-
 		for (i in 0...4) {
 			var enemy = new Enemy(s2d);
+
 			enemy.y = s2d.height * .5;
 			enemy.x = 200 + (i * 250);
-
 			enemies.push(enemy);
 		}
-
 		goal = new Goal(s2d);
 	}
 
@@ -48,10 +51,10 @@ class Main extends App {
 		}
 
 		if (Key.isPressed(Key.R)) {
-			this.init();
+			this.startGame();
 		}
 
-		if (gameOver) {
+		if (!gameStarted || gameOver) {
 			return;
 		}
 
@@ -64,6 +67,7 @@ class Main extends App {
 	}
 
 	function checkCollisions() {
+		// trace(Timer.fps());
 		if (player == null) {
 			return;
 		}
@@ -105,19 +109,10 @@ class Main extends App {
 	}
 
 	function printHeader(message:String) {
-		var t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-		t.scale(10);
-		t.text = message;
-		t.textAlign = Align.Center;
-		t.x = s2d.width * .5;
+		UiHelper.addHeader(message, s2d);
 	}
 
 	function printInfo() {
-		var t = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-		t.scale(5);
-		t.text = "R - to restart\n ESC - to quit";
-		t.textAlign = Align.Center;
-		t.x = s2d.width * .5;
-		t.y = s2d.height * .5;
+		UiHelper.addInfo("R - to restart\n ESC - to quit", s2d);
 	}
 }

@@ -4,7 +4,7 @@
 -lib differ
 #--class-path
 -cp src
--main Main
+-main Game
 -D windowSize=1090x768
 -D windowFixed=1
 -D windowTitle=Jurana
