@@ -45,10 +45,12 @@ class Game extends App {
 	}
 
 	override function update(dt:Float) {
+		#if !js
 		if (Key.isPressed(Key.ESCAPE)) {
 			trace('ESCAPE pressed');
 			Sys.exit(0);
 		}
+		#end
 
 		if (Key.isPressed(Key.R)) {
 			this.startGame();

@@ -1,0 +1,7 @@
+-lib heaps
+-lib differ
+#--class-path
+-cp src
+-js web/game.js
+-main Game
+-debug

@@ -1,7 +1,5 @@
 package jurana.scenes;
 
-import ui.UiHelper;
-import sdl.Event.EventType;
 import hxd.Key;
 import ui.UiHelper;
 import hxd.Event;
