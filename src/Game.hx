@@ -1,56 +1,43 @@
-import ui.UiHelper;
+import jurana.scenes.BaseScene;
 import jurana.scenes.Menu;
 import jurana.scenes.Level;
 import hxd.Key;
 import hxd.App;
-import jurana.entities.Collidable;
-import jurana.entities.Goal;
-import jurana.entities.Enemy;
-import jurana.entities.Player;
 
 class Game extends App {
+	var currentScene:Null<BaseScene>;
+
+	function setCurrentScene(scene:BaseScene) {
+		this.setScene2D(scene);
+		currentScene = scene;
+	}
+
 	static function main() {
 		new Game();
 	}
-
-	var goal:Goal;
-	var player:Player;
-	var enemies = new Array<Collidable>();
-	var velocity = 0;
-	var gameStarted = false;
-	var gameOver = false;
 
 	override function init() {
 		mainMenu();
 	}
 
 	function mainMenu() {
-		gameStarted = false;
 		var onStart = function() {
 			startGame();
 		};
-		setScene2D(new Menu(onStart));
+		var menuScene = new Menu();
+		menuScene.registerOnStart(onStart);
+		setCurrentScene(menuScene);
 	}
 
 	function startGame() {
-		setScene2D(new Level(function() {
-			mainMenu();
-		}));
-		gameStarted = true;
-		gameOver = false;
-		enemies = new Array<Collidable>();
-		UiHelper.addBackground(s2d);
-		player = new Player(s2d);
-		player.x = 60;
-		player.y = s2d.height * .5;
-		for (i in 0...4) {
-			var enemy = new Enemy(s2d);
+		var levelScene = new Level();
 
-			enemy.y = s2d.height * .5;
-			enemy.x = 200 + (i * 250);
-			enemies.push(enemy);
-		}
-		goal = new Goal(s2d);
+		levelScene.registerHandlers(function() {
+			mainMenu();
+		}, function() {
+			startGame();
+		});
+		setCurrentScene(levelScene);
 	}
 
 	override function update(dt:Float) {
@@ -61,69 +48,8 @@ class Game extends App {
 		}
 		#end
 
-		if (Key.isPressed(Key.R)) {
-			this.startGame();
+		if (currentScene != null) {
+			currentScene.update(dt);
 		}
-
-		if (!gameStarted || gameOver) {
-			return;
-		}
-
-		player.update(dt);
-		for (enemy in enemies) {
-			enemy.update(dt);
-		}
-
-		checkCollisions();
-	}
-
-	function checkCollisions() {
-		// trace(Timer.fps());
-		if (player == null) {
-			return;
-		}
-
-		var collision = player.isColliding(goal);
-		if (collision) {
-			trace('${Date.now()}: collision happened');
-			this.removeEntities();
-			gameOver = true;
-			this.printWinner();
-			return;
-		}
-
-		collision = player.isCollidingWithShapes(enemies);
-		if (collision) {
-			trace('${Date.now()}: collision happened');
-			this.removeEntities();
-			gameOver = true;
-			this.printLoser();
-		}
-	}
-
-	function removeEntities() {
-		player.destroy();
-		goal.destroy();
-		for (enemy in enemies) {
-			enemy.destroy();
-		}
-	}
-
-	function printWinner() {
-		printHeader("YOU WON!");
-		printInfo();
-	}
-
-	function printLoser() {
-		printHeader("GAME OVER!");
-		printInfo();
-	}
-
-	function printHeader(message:String) {
-		UiHelper.addHeader(message, s2d);
-	}
-
-	function printInfo() {
-		UiHelper.addInfo("[R] - to restart\n[Q] - quit to Menu\n[ESC] - to Exit Game", s2d);
 	}
 }
