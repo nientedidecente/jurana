@@ -1,5 +1,6 @@
 package jurana.entities;
 
+import h2d.Particles;
 import h2d.col.Point;
 import hxd.Key;
 import h2d.Tile;
@@ -12,6 +13,8 @@ class Player extends Collidable {
 	static final SIZE = 30;
 
 	var speed:Int;
+	var particles:Particles;
+	var g:ParticleGroup;
 	var movement = new Point(0, 0);
 
 	public function new(scene:Scene) {
@@ -20,6 +23,11 @@ class Player extends Collidable {
 		super(scene, tile);
 		this.speed = 600;
 		this.collider = new Circle(this.x, this.y, SIZE * .5);
+		this.particles = new Particles(this);
+		this.g  = new ParticleGroup(particles);
+
+		g.size = .5;
+		particles.addGroup(g);
 	}
 
 	override function update(dt:Float) {
@@ -44,7 +52,7 @@ class Player extends Collidable {
 			this.movement.y = ACCELLERATION;
 			this.rotation -= ROTATION_SPEED;
 		}
-		
+
 		if (Key.isDown(Key.SPACE)) {
 			this.movement.y = 0;
 			this.movement.x = 0;
