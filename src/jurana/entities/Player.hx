@@ -24,9 +24,14 @@ class Player extends Collidable {
 		this.speed = 600;
 		this.collider = new Circle(this.x, this.y, SIZE * .5);
 		this.particles = new Particles(this);
-		this.g  = new ParticleGroup(particles);
-
+		this.g = new ParticleGroup(particles);
 		g.size = .5;
+		// g.emitMode = PartEmitMode.Cone;
+		g.emitMode = PartEmitMode.Cone;
+		// g.emitAngle = Math.PI /2;
+		g.nparts = 0; // this will stop particles all together
+		particles.x = 0;
+		particles.y = 0;
 		particles.addGroup(g);
 	}
 
