@@ -1,6 +1,9 @@
 # jurana
 
 simple frogger clone made in Haxe/Heaps
+[master build js](https://jurana-haxe.surge.sh/)
+
+[Video Example](https://www.loom.com/share/f986cb8ad9ed4ed4a0a5941549fe7ff5)
 
 ## How to Run
 Prerequisites:
