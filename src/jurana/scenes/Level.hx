@@ -1,5 +1,6 @@
 package jurana.scenes;
 
+import jurana.config.Colours;
 import hxd.Key;
 import hxd.Event;
 import ui.UiHelper;
@@ -18,10 +19,9 @@ class Level extends BaseScene {
 
 	override function init() {
 		super.init();
-		UiHelper.addBackground(this);
 		gameOver = false;
 		enemies = new Array<Collidable>();
-		UiHelper.addBackground(this);
+		UiHelper.addBackground(this, Colours.BACKGROUND);
 		player = new Player(this);
 		player.x = 60;
 		player.y = this.height * .5;
