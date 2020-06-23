@@ -1,3 +1,4 @@
+import js.Browser;
 import jurana.scenes.BaseScene;
 import jurana.scenes.Menu;
 import jurana.scenes.Level;
@@ -41,12 +42,14 @@ class Game extends App {
 	}
 
 	override function update(dt:Float) {
-		#if !js
 		if (Key.isPressed(Key.ESCAPE)) {
 			trace('ESCAPE pressed');
+			#if js
+			Browser.document.location.replace("https://github.com/nientedidecente/jurana");
+			#else
 			Sys.exit(0);
+			#end
 		}
-		#end
 
 		if (currentScene != null) {
 			currentScene.update(dt);
