@@ -1,5 +1,6 @@
 package jurana.entities;
 
+import jurana.config.Colours;
 import jurana.libs.Randomizer;
 import h2d.Tile;
 import h2d.Scene;
@@ -12,7 +13,7 @@ class Enemy extends Collidable {
 
 	public function new(scene:Scene) {
 		this.size = Randomizer.int(20, 60);
-		var tile = Tile.fromColor(0xFF9F1C, size, size);
+		var tile = Tile.fromColor(Colours.ENEMY, size, size);
 		tile = tile.center();
 		this.speed = (Randomizer.chance(50) ? -1 : 1) * Randomizer.int(3, 10);
 		this.rotationSpeed = Randomizer.int(1, 5) / 100;
@@ -20,7 +21,7 @@ class Enemy extends Collidable {
 		collider = new Circle(this.x, this.y, size * .5);
 	}
 
-	override function update(dt: Float) {
+	override function update(dt:Float) {
 		super.update(dt);
 		this.rotation += this.rotationSpeed;
 		this.y += this.speed;

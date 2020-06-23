@@ -1,5 +1,7 @@
 package jurana.entities;
 
+import jurana.config.Colours;
+import haxe.Timer;
 import h2d.Particles;
 import h2d.col.Point;
 import hxd.Key;
@@ -8,7 +10,7 @@ import h2d.Scene;
 import differ.shapes.Circle;
 
 class Player extends Collidable {
-	static final ROTATION_SPEED = 0.5;
+	static final TRAIL_LIFE = 300;
 	static final ACCELLERATION = 1;
 	static final SIZE = 30;
 
@@ -18,21 +20,33 @@ class Player extends Collidable {
 	var movement = new Point(0, 0);
 
 	public function new(scene:Scene) {
-		var tile = Tile.fromColor(0x2ec4b6, SIZE, SIZE);
+		var tile = Tile.fromColor(Colours.PLAYER, SIZE, SIZE);
 		tile = tile.center();
 		super(scene, tile);
 		this.speed = 600;
 		this.collider = new Circle(this.x, this.y, SIZE * .5);
-		this.particles = new Particles(this);
-		this.g = new ParticleGroup(particles);
-		g.size = .5;
-		// g.emitMode = PartEmitMode.Cone;
-		g.emitMode = PartEmitMode.Cone;
-		// g.emitAngle = Math.PI /2;
-		g.nparts = 0; // this will stop particles all together
-		particles.x = 0;
-		particles.y = 0;
+	}
+
+	function generateTrace() {
+		var particles = new Particles(this.scene);
+		var g = new ParticleGroup(particles);
+		g.texture = Tile.fromColor(Colours.TRAIL).getTexture();
+		g.size = SIZE / 4;
+		g.nparts = 40;
+		g.sizeRand = .2;
+		g.life = .5;
+		g.speed = 30;
+		g.speedRand = 3;
+		g.emitMode = PartEmitMode.Point;
+		g.emitDist = 10;
+		g.fadeIn = 0;
+		g.fadeOut = 0;
+		particles.x = this.x;
+		particles.y = this.y;
 		particles.addGroup(g);
+		Timer.delay(function() {
+			particles.removeGroup(g);
+		}, TRAIL_LIFE);
 	}
 
 	override function update(dt:Float) {
@@ -40,28 +54,28 @@ class Player extends Collidable {
 
 		if (Key.isDown(Key.RIGHT)) {
 			this.movement.x = ACCELLERATION;
-			this.rotation += ROTATION_SPEED;
 		}
 
 		if (Key.isDown(Key.UP)) {
 			this.movement.y = -ACCELLERATION;
-			this.rotation += ROTATION_SPEED;
 		}
 
 		if (Key.isDown(Key.LEFT)) {
 			this.movement.x = -ACCELLERATION;
-			this.rotation -= ROTATION_SPEED;
 		}
 
 		if (Key.isDown(Key.DOWN)) {
 			this.movement.y = ACCELLERATION;
-			this.rotation -= ROTATION_SPEED;
 		}
 
 		if (Key.isDown(Key.SPACE)) {
 			this.movement.y = 0;
 			this.movement.x = 0;
 			this.rotation = 0;
+		}
+
+		if (this.movement.x != 0 || this.movement.y != 0) {
+			this.generateTrace();
 		}
 
 		this.movement.normalize();
