@@ -16,6 +16,7 @@ class Level extends BaseScene {
 	var player:Player;
 	var enemies = new Array<Collidable>();
 	var gameOver = false;
+	var level = 1;
 
 	override function init() {
 		super.init();
@@ -26,8 +27,7 @@ class Level extends BaseScene {
 		player.x = 60;
 		player.y = this.height * .5;
 		for (i in 0...4) {
-			var enemy = new Enemy(this);
-
+			var enemy = new Enemy(this, level);
 			enemy.y = this.height * .5;
 			enemy.x = 200 + (i * 250);
 			enemies.push(enemy);
@@ -93,30 +93,31 @@ class Level extends BaseScene {
 
 	function printWinner() {
 		printHeader("YOU WON!");
-		printInfo();
+		level += 1;
+		printInfo('to level ${level}');
 	}
 
 	function printLoser() {
-		printHeader("GAME OVER!");
-		printInfo();
+		UiHelper.addHeader("GAME OVER!", this, 0xff0000);
+		printInfo("Retry");
 	}
 
 	function printHeader(message:String) {
 		UiHelper.addHeader(message, this);
 	}
 
-	function printInfo() {
-		UiHelper.addInfo("[R] - to restart\n[Q] - quit to Menu\n[ESC] - to Exit Game", this);
+	function printInfo(action) {
+		UiHelper.addInfo('[SPACE] - ${action}\n[Q] - quit to Menu\n[ESC] - to Exit Game', this);
 	}
 
-	public function registerHandlers(onQuit:Void->Void, onRestart:Void->Void) {
+	public function registerHandlers(onQuit:Void->Void, onStart:Void->Void) {
 		this.addEventListener(function(event:Event) {
 			if (event.kind == EventKind.EKeyDown && event.keyCode == Key.Q) {
 				onQuit();
 			}
 
-			if (event.kind == EventKind.EKeyDown && event.keyCode == Key.R) {
-				onRestart();
+			if (event.kind == EventKind.EKeyDown && event.keyCode == Key.SPACE) {
+				onStart();
 			}
 		});
 	}

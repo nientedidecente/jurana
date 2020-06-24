@@ -12,10 +12,11 @@ class UiHelper {
 		backgound.y = 0;
 	}
 
-	public static function addHeader(label:String, scene:Scene) {
+	public static function addHeader(label:String, scene:Scene, colour:Int = 0xffffff) {
 		var t = new h2d.Text(hxd.res.DefaultFont.get(), scene);
 		t.scale(10);
 		t.text = label;
+		t.textColor = colour;
 		t.textAlign = Align.Center;
 		t.x = scene.width * .5;
 
