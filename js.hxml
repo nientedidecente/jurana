@@ -1,7 +1,3 @@
--lib heaps
--lib differ
-#--class-path
--cp src
+base.hxml
 -js web/game.js
--main Game
 -debug

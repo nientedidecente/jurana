@@ -1,4 +1,3 @@
-import js.Browser;
 import jurana.scenes.BaseScene;
 import jurana.scenes.Menu;
 import jurana.scenes.Level;
@@ -36,7 +35,7 @@ class Game extends App {
 		levelScene.registerHandlers(function() {
 			mainMenu();
 		}, function() {
-			startGame();
+			levelScene.init();
 		});
 		setCurrentScene(levelScene);
 	}
@@ -45,7 +44,7 @@ class Game extends App {
 		if (Key.isPressed(Key.ESCAPE)) {
 			trace('ESCAPE pressed');
 			#if js
-			Browser.document.location.replace("https://github.com/nientedidecente/jurana");
+			js.Browser.document.location.replace("https://github.com/nientedidecente/jurana");
 			#else
 			Sys.exit(0);
 			#end
