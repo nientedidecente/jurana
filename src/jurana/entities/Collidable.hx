@@ -1,20 +1,19 @@
 package jurana.entities;
 
-import h2d.Scene;
+import h2d.Object;
 import h2d.Bitmap;
 import h2d.Tile;
 import differ.Collision;
 import differ.shapes.Shape;
 
 class Collidable extends Bitmap {
-	var scene:Scene;
 
 	public var collider:Null<Shape>;
 
-	public function new(scene:Scene, tile:Tile, ?collider:Shape = null) {
-		this.scene = scene;
+	public function new(parent:Object, tile:Tile, ?collider:Shape = null) {
+		this.parent = parent;
 		this.collider = collider;
-		super(tile, scene);
+		super(tile, parent);
 	}
 
 	public function destroy() {
@@ -48,7 +47,7 @@ class Collidable extends Bitmap {
 		return false;
 	}
 
-	public function update(dt: Float) {
+	public function update(dt:Float) {
 		this.collider.x = this.x;
 		this.collider.y = this.y;
 	}

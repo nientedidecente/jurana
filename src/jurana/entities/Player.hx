@@ -1,5 +1,6 @@
 package jurana.entities;
 
+import h2d.Object;
 import jurana.config.Colours;
 import haxe.Timer;
 import h2d.Particles;
@@ -19,16 +20,16 @@ class Player extends Collidable {
 	var g:ParticleGroup;
 	var movement = new Point(0, 0);
 
-	public function new(scene:Scene) {
+	public function new(parent:Object) {
 		var tile = Tile.fromColor(Colours.PLAYER, SIZE, SIZE);
 		tile = tile.center();
-		super(scene, tile);
+		super(parent, tile);
 		this.speed = 600;
 		this.collider = new Circle(this.x, this.y, SIZE * .5);
 	}
 
 	function generateTrace() {
-		var particles = new Particles(this.scene);
+		var particles = new Particles(this.parent);
 		var g = new ParticleGroup(particles);
 		g.texture = Tile.fromColor(Colours.TRAIL).getTexture();
 		g.size = SIZE / 4;
