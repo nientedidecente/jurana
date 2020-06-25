@@ -10,6 +10,7 @@ class UiHelper {
 		var backgound = new Bitmap(Tile.fromColor(colour, scene.width, scene.height), scene);
 		backgound.x = 0;
 		backgound.y = 0;
+		return backgound;
 	}
 
 	public static function addHeader(label:String, scene:Scene, colour:Int = 0xffffff) {
@@ -30,5 +31,7 @@ class UiHelper {
 		t.textAlign = Align.Center;
 		t.x = scene.width * .5;
 		t.y = scene.height * .5;
+
+		return t;
 	}
 }

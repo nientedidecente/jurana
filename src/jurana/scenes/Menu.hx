@@ -11,12 +11,17 @@ class Menu extends BaseScene {
 		super.init();
 		UiHelper.addBackground(this, Colours.BACKGROUND);
 		UiHelper.addHeader('Jurana', this);
-		UiHelper.addInfo("[Space] to Start\n[ESC] to Quit", this);
+		#if js
+		var escAction = 'to see the Code';
+		#else
+		var escAction = 'to Quit';
+		#end
+		UiHelper.addInfo('[ENTER] to Start\n[ESC] ${escAction}', this);
 	}
 
 	public function registerOnStart(onStart:Void->Void) {
 		this.addEventListener(function(event:Event) {
-			if (event.kind == EventKind.EKeyDown && event.keyCode == Key.SPACE) {
+			if (event.kind == EventKind.EKeyDown && event.keyCode == Key.ENTER) {
 				onStart();
 			}
 		});
