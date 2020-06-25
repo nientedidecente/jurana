@@ -12,14 +12,15 @@ Prerequisites:
 
 To install dependencies
 ```
-haxelib install build.hxml
+haxelib install js.hxml // deps for js
+haxelib install hl.hxml // deps for hashlink
 ```
 
 **Build**
 
 **Hashlink**
 
-To build it as **hashlink-sdl** target: `haxe build.hxml`
+To build it as **hashlink-sdl** target: `haxe hl.hxml`
 This will generate `build/game.hl` that will be runnable with `hl build/game.hl`
 
 **Web/JS**
