@@ -2,7 +2,6 @@ package jurana.scenes;
 
 import h2d.Camera;
 import jurana.entities.Enemy;
-//import jurana.libs.Camera;
 import jurana.config.Colours;
 import hxd.Key;
 import hxd.Event;
@@ -22,9 +21,12 @@ class Level extends BaseScene {
 		gameOver = false;
 		var bg = UiHelper.addBackground(this, Colours.BACKGROUND);
 		camera = new Camera(this);
-		var enemy = new Enemy(this, level);
-		enemy.x = 200;
-		enemy.y = 100;
+		for (i in 0...200) {
+			var enemy = new Enemy(camera, level);
+			enemy.x = 200 + 200 * (1 * i);
+			enemy.y = -(100 + 200 * (1 * i));
+		}
+
 		player = new Player(camera);
 
 		player.x = bg.width * .5;
