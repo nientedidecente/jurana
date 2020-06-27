@@ -46,6 +46,7 @@ class Player extends Collidable {
 		particles.addGroup(g);
 		Timer.delay(function() {
 			particles.removeGroup(g);
+			particles.remove();
 		}, TRAIL_LIFE);
 	}
 
